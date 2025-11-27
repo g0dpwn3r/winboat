@@ -18,7 +18,7 @@ export abstract class ContainerManager {
 
     abstract cachedPortMappings: ComposePortEntry[] | null;
 
-    abstract writeCompose(compose: ComposeConfig): void;
+    abstract writeCompose(compose: ComposeConfig): Promise<void>;
     abstract compose(direction: ComposeDirection, extraArgs?: ComposeArguments[]): Promise<void>;
     abstract container(action: ContainerAction): Promise<void>;
     abstract port(): Promise<ComposePortEntry[]>;

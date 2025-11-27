@@ -117,7 +117,7 @@ export class InstallManager {
         }
 
         // Write the compose file
-        this.container.writeCompose(composeContent);
+        await this.container.writeCompose(composeContent);
     }
 
     async createOEMAssets() {
@@ -273,7 +273,7 @@ export class InstallManager {
 
                     if (compose.services.windows.volumes.length !== filteredVolumes.length) {
                         compose.services.windows.volumes = filteredVolumes;
-                        this.container.writeCompose(compose);
+                        await this.container.writeCompose(compose);
                     }
 
                     return;

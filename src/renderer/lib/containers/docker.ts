@@ -35,7 +35,23 @@ export class DockerContainer extends ContainerManager {
         super();
     }
 
-    writeCompose(compose: ComposeConfig): void {
+    async writeCompose(compose: ComposeConfig): Promise<void> {
+        // Compute VM_NET_DEV
+        let vmNetDev = "";
+        try {
+            const { stdout } = await execFileAsync("sh", ["-c", "ip -o link show | awk -F': ' '$2 !~ \"lo\" {print $2; exit}'"]);
+            vmNetDev = stdout.trim();
+            if (vmNetDev) {
+                compose.services.windows.environment.VM_NET_DEV = vmNetDev;
+            } else {
+                containerLogger.warn("No network device found for VM_NET_DEV");
+            }
+        } catch (e) {
+            containerLogger.error("Failed to get network device for VM_NET_DEV");
+            containerLogger.error(e);
+            // Skip adding VM_NET_DEV if command fails
+        }
+
         const composeContent = YAML.stringify(compose, { nullStr: "" });
         fs.writeFileSync(this.composeFilePath, composeContent, { encoding: "utf-8" });
 

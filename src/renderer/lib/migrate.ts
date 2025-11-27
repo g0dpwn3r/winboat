@@ -58,7 +58,7 @@ async function migrateComposePorts_Pre090(containerManager: ContainerManager): P
     currentCompose.services.windows.image = defaultCompose.services.windows.image;
     currentCompose.services.windows.environment["USER_PORTS"] = defaultCompose.services.windows.environment["USER_PORTS"];
 
-    containerManager.writeCompose(currentCompose);
+    await containerManager.writeCompose(currentCompose);
 
     logger.info("[migrateComposePorts_Pre090]: Composing up WinBoat container");
     await containerManager.compose("up", ["--no-start"]);

@@ -57,7 +57,7 @@ export class PodmanContainer extends ContainerManager {
         super();
     }
 
-    writeCompose(compose: ComposeConfig): void {
+    async writeCompose(compose: ComposeConfig): Promise<void> {
         const composeContent = YAML.stringify(compose, { nullStr: "" });
         fs.writeFileSync(this.composeFilePath, composeContent, { encoding: "utf-8" });
 

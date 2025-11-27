@@ -552,7 +552,7 @@ export class Winboat {
         logger.info(`Backed up current compose at: ${path.join(backupDir, backupFile)}`);
 
         // 4. Write new compose file
-        this.containerMgr!.writeCompose(composeConfig);
+        await this.containerMgr!.writeCompose(composeConfig);
         logger.info(`Wrote new compose file to: ${composeFilePath}`);
 
         // 5. Deploy the container with the new compose file
